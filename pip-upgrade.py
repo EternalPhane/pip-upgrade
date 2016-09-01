@@ -61,10 +61,16 @@ def main():
                 lambda: pypi.release_urls(dist.project_name, version),
                 lambda: print('\n')
             ):
-                if (
-                    release['python_version'] == py_ver and
-                    system in release['filename'] and
-                    arch in release['filename']
+                if ((
+                        release['python_version'] == py_ver or
+                        py_ver in release['filename'] or
+                        "py2.py3" in release['filename']
+                    ) and ((
+                            system in release['filename'] and
+                            arch in release['filename']
+                        ) or
+                        "none-any" in release['filename']
+                    )
                 ):
                     pkgs.append(type('', (object,), {
                         'name': dist.project_name,
